@@ -13,8 +13,8 @@ library(ggplot2)
 ### Loading the dataset
 
 ```{r load_data, message=TRUE}
-data("diamonds") # diamonds datasets
-print(diamonds)
+diamonds_df = read_csv('./dataset/diamonds.csv')
+print(diamonds_df)
 ```
 
 ### Exploring the dataset.
@@ -32,27 +32,33 @@ While exploring the data set and we start by knowing the following:
 #### Data Type of each Column
 
 ```{r}
-str(diamonds)
+str(diamonds_df)
 ```
 
 ```{r}
-sapply(diamonds, class)
+# Dimension of the dataset
+rc <- dim(diamonds_df)
+cat('Row -', rc[1], '\n')
+cat('Column -', rc[2])
+```
+
+```{r}
+# data type of each variable
+sapply(diamonds_df, class)
 ```
 
 #### Number/Percentage of Missing Values
 
 ```{r}
-colSums(is.na(diamonds))
+colSums(is.na(diamonds_df))
 ```
 
 This data show that there are not any missing values.
 
-***Assignment #1*****: Research on how to get the percentage of missing values in R**
-
 #### Descriptive Summary (statistics) of the dataset in general.
 
 ```{r}
-desc_sum <- summary(diamonds)
+desc_sum <- summary(diamonds_df)
 print(desc_sum)
 ```
 
@@ -62,17 +68,14 @@ Use \`Ctrl + Shift + M\` to invoke the pipe operator (%\>%)
 
 ```{r}
 # Basic data cleaning and conversion to integers
-diamonds <- diamonds %>%
+diamonds_df <- diamonds_df %>%
    mutate(across(c(carat, depth, table, x, y, z), as.numeric)) %>%
    filter_all(all_vars(!is.na(.)))  # Remove rows with any missing values 
 ```
 
 ```{r}
-
-```
-
-```{r}
-head(diamonds)
+# checking for the change
+head(diamonds_df)
 ```
 
 ### Exploratory Analysis
@@ -81,21 +84,21 @@ Count the number of values in cut, colour, and clarity
 
 ```{r}
 # Counting the number of the cut category
-count_cut = diamonds %>% 
+count_cut = diamonds_df %>% 
    count(cut) %>% 
 
 print(count_cut)
 ```
 
 ```{r}
-count_color <- diamonds %>% 
+count_color <- diamonds_df %>% 
    count(color)
 
 print(count_color)
 ```
 
 ```{r}
-count_clarity <- diamonds %>% 
+count_clarity <- diamonds_df %>% 
    count(clarity)
 
 print(count_clarity)
@@ -104,10 +107,14 @@ print(count_clarity)
 #### visualization
 
 ```{r}
-ggplot(diamonds, aes(x = cut, fill = cut)) +
+cut_dist <- ggplot(diamonds_df, aes(x = cut, fill = cut)) +
    geom_bar() +
    labs(title = "Distribution of Cut Categories") +
    theme_minimal()
+
+cut_dist
+
+ggsave('./image_plot/cut_dist.png', cut_dist + theme(panel.background = element_rect(fill = 'white')), width = 12, height = 7)
 ```
 
 ```{r}
