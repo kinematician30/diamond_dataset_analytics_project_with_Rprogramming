@@ -28,4 +28,8 @@ This dataset isn't just about price tags; it delves into the very essence of the
 
 #### Distribution of Cut Categories
 
-![Cut Distribution](image_plot/cut_dist.png){width="659"}
+![Cut Categories](image_plot/cut_dist.png)
+
+### Distribution of clarity distribution
+
+![Clarity dist](image_plot/clarity_dist.png){width="533" height="371"}
