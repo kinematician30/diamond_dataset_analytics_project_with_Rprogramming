@@ -1,0 +1,79 @@
+# Machine Learning Model Building
+
+Agenda:
+
+1.  Loading Necessary Libraries.
+2.  Load the dataset.
+3.  Selecting of relevant variables for Abstraction and Generalization.
+4.  Feature Engineering (for accurate modelling).
+5.  Dataset Splitting (Training and Testing).
+6.  Model Building (with Linear Regression, Random Forest and Decision Tree algorithms)
+
+```{r}
+# Load necessary libraries
+library(tidyverse)
+library(caret)
+library(randomForest)
+library(corrplot)
+```
+
+```{r}
+# Load our dataset into Global Env
+diamonds_df <- read_csv("dataset/diamonds.csv")
+```
+
+```{r}
+diamonds_df[, c("carat", "cut", "color", "clarity", "depth", "table", "price")]
+```
+
+#### Correlation Matrix
+
+```{r}
+# Convert "x", "y", and "z" columns to numeric
+diamonds_df$x <- as.numeric(diamonds_df$x)
+diamonds_df$y <- as.numeric(diamonds_df$y)
+diamonds_df$z <- as.numeric(diamonds_df$z)
+
+```
+
+```{r}
+# Correlation matrix
+correlation_matrix <- cor(
+   diamonds_df[, c("carat", "depth", "table", "x", "y", "z", "price")]
+   )
+```
+
+```{r}
+print("Correlation Matrix:")
+print(correlation_matrix)
+```
+
+```{r}
+# Visualize the correlation matrix
+corrplot(correlation_matrix, method = "color", addCoef.col = "black")
+```
+
+```{r}
+# Feature engineering (select relevant variables)
+diamonds_selected <- diamonds_df[, c("carat", "cut", "color", "clarity", "x", "y", "z", "price")]
+
+diamonds_selected
+```
+
+#### Splitting the dataset into training and testing
+
+```{r}
+# Split the dataset into training and testing sets (70/30 ratio)
+set.seed(42)
+train_index <- createDataPartition(diamonds_selected$price, p = 0.7, list = FALSE)
+train_data <- diamonds_selected[train_index, ]
+test_data <- diamonds_selected[-train_index, ]
+```
+
+```{r}
+train_data
+```
+
+```{r}
+test_data
+```
