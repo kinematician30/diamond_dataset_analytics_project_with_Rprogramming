@@ -118,10 +118,12 @@ ggsave('./image_plot/cut_dist.png', cut_dist + theme(panel.background = element_
 ```
 
 ```{r}
-ggplot(diamonds, aes(x = clarity, fill = clarity)) +
+clarity_dist <- ggplot(diamonds_df, aes(x = clarity, fill = clarity)) +
    geom_bar() +
    labs(title = "Distribution of Clarity Categories", xlab = "Clarity Category") + 
-   theme_dark()
+   theme_minimal()
+
+clarity_dist
 ```
 
 ## Data Questions to analyze
