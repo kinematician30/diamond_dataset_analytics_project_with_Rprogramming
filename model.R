@@ -36,6 +36,20 @@ linear_predictions_test <- predict(linear_model, newdata = test_data)
 linear_mse_test <- mean((test_data$price - linear_predictions_test)^2)
 cat("Linear Regression - Mean Squared Error (Test):", linear_mse_test, "\n")
 
+# Calculate Mean Absolute Error for both train and test sets for linear regression
+linear_mae_train <- mean(abs(train_data$price - linear_predictions_train))
+cat("\nLinear Regression - Mean Absolute Error (Train):", linear_mae_train, "\n")
+
+linear_mae_test <- mean(abs(test_data$price - linear_predictions_test))
+cat("Linear Regression - Mean Absolute Error (Test):", linear_mae_test, "\n")
+
+# Calculate R-squared for both train and test sets linear regression
+linear_r_squared_train <- summary(linear_model)$r.squared
+cat("\nLinear Regression - R-squared (Train):", linear_r_squared_train, "\n")
+
+linear_r_squared_test <- cor(test_data$price, linear_predictions_test)^2
+cat("Linear Regression - R-squared (Test):", linear_r_squared_test, "\n")
+
 # Decision Tree Regression
 tree_model <- train(price ~ ., data = train_data, method = "rpart")
 
